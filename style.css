@@ -1,0 +1,49 @@
+body {
+    font-size: 15pt;
+}
+
+#container {
+  display: grid;
+  grid-template-columns: 1fr 2fr 1fr;
+  grid-template-rows: 1fr 2fr 2fr;
+  min-height: 100vh;
+  min-width: 100vw;
+  max-height: 100vh;
+  max-width: 100vw;
+}
+
+#greetings {
+  background-color: #99ccff;
+  display: flex;
+  grid-area: 1/ 1/ 2/ 4;
+  flex-direction: row;
+  align-content: center;
+  justify-content: center;
+}
+#greetings-text {
+  margin: 0;
+  font-size: 5em;
+  font-family: Fantasy;
+  color: gold;
+}
+#top {
+  background-color: #99ccff;
+  grid-area: 2/ 1/ 3/ 4;
+}
+#bottom {
+  grid-area: 3/ 1/ 4/ 4;
+  background-color: #ffffe6;
+}
+#tree-container {
+  grid-area: 2/ 2/ 4/ 3;
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: 1fr;
+}
+#tree {
+  grid-area: 1/ 1/ 2/ 2;
+}
+#lights {
+  grid-area: 1/ 1/ 2/ 2;
+  z-index: 1;
+}
