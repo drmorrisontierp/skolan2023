@@ -1,9 +1,8 @@
-document.getElementById("start").onclick = () => start();
-document.getElementById("stop").onclick = () => stop();
+// OBS ÄNDRA INTE bara kopiera och klistra in ovanför koden för din träd
 
+document.getElementById("start").onclick = () => start();
 const ctx = document.getElementById("tree").getContext("2d");
 const svg = document.getElementById("lights");
-let lightIds = [];
 let started = true;
 
 const createSVGElement = (tag) => {
@@ -15,6 +14,53 @@ const setAttributes = (element, attributes) => {
     element.setAttribute(key, value);
   }
 };
+
+const drawLights = (lightCoords) => {
+  let lightIds = [];
+  for (let x = 0; x < lightCoord.length; x++) {
+    let _id = "light" + x;
+    let light = createSVGElement("circle");
+    setAttributes(light, {
+      id: _id,
+      cx: lightCoord[x][0],
+      cy: lightCoord[x][1],
+      r: "7",
+      stroke: "black",
+      "stroke-width": "1",
+      fill: lightOff
+    });
+    svg.appendChild(light);
+    lightIds.push(_id);
+  }
+  return lightIds;
+};
+
+const toggle_lights = (items) => {
+  items.forEach((item) => {
+    let elem = document.getElementById(item);
+    let color = elem.getAttribute("fill");
+    color === lightOn ?
+      elem.setAttribute("fill", lightOff) :
+      elem.setAttribute("fill", lightOn);
+  });
+  if (!started) return 0;
+  setTimeout(() => toggle_lights(items), flashTime);
+};
+
+const stop = () => {
+  document.getElementById("start").innerHTML = "start";
+  document.getElementById("start").onclick = () => start();
+  started = false;
+};
+
+const start = () => {
+  document.getElementById("start").innerHTML = "stop";
+  document.getElementById("start").onclick = () => stop();
+  started = true;
+  setTimeout(() => toggle_lights(lightIds, flashTime));
+};
+
+// Träd börja här (din träd kod ska ser utt lite som den här nedanför)
 
 ctx.fillStyle = "brown";
 ctx.strokeStyle = "black";
@@ -40,6 +86,8 @@ ctx.lineTo(340, 400);
 ctx.fill();
 ctx.stroke();
 
+// nya kod till lamporna
+
 const lightCoord = [
   ["180", "400"],
   ["220", "270"],
@@ -49,42 +97,8 @@ const lightCoord = [
   ["500", "400"]
 ];
 
-for (let x = 0; x < lightCoord.length; x++) {
-  let _id = "light" + x;
-  let light = createSVGElement("circle");
-  setAttributes(light, {
-    id: _id,
-    cx: lightCoord[x][0],
-    cy: lightCoord[x][1],
-    r: "7",
-    stroke: "black",
-    "stroke-width": "1",
-    fill: "yellow"
-  });
-  svg.appendChild(light);
-  lightIds.push(_id);
-}
+const lightOn = "red";
+const lightOff = "blue";
+const flashTime = 1000;
 
-function toggle_buttons(items) {
-  items.forEach(function (item) {
-    console.log(item);
-    let elem = document.getElementById(item);
-    let color = elem.getAttribute("fill");
-    color == "yellow"
-      ? elem.setAttribute("fill", "gold")
-      : elem.setAttribute("fill", "yellow");
-  });
-  if (!started) return 0;
-  setTimeout(() => toggle_buttons(items), 1000);
-}
-
-function stop() {
-  started = false;
-}
-
-function start() {
-  started = true;
-  setTimeout(() => toggle_buttons(lightIds, 1000));
-}
-
-
+const lightIds = drawLights(lightCoord);
